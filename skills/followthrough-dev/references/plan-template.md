@@ -9,6 +9,7 @@ Use this structure when scaffolding `docs/FOLLOWTHROUGH_PLAN.md`.
 - **Feasibility Phase Rule:** If the project is a proof of concept, multi-platform app, or carries high technical risk, dedicate Phase 0 or Phase 1 to proving the core risky mechanics as an **extendable prototype** (plus minimal core project structure if needed) before building secondary features.
 - Include **Deferred / Not Yet Built** notes on tasks where related UI or behavior comes later so neither the developer nor the agent mistakes planned work for a bug.
 - **Phase Summary Table:** Always include a summary table at the top of the plan before the task breakdowns. Maintain columns for **Phase**, **Milestone**, **Status** (`Not Started` | `Ongoing` | `Complete`), and **Evidence doc(s)** (clickable markdown link to the corresponding `codebase/phase-XX-<slug>.md` file in `docs/codebase/`). Keep this table updated as phases progress and finish.
+- **Phase Acceptance & Verification Task Rule:** Every phase MUST conclude with a dedicated final task (e.g., `Task 0.3 - Phase 0 Acceptance & Build/Regression Verification`). This task defines overall phase acceptance criteria, verifies the project compiles/builds without errors (if applicable to the stack), and runs regression checks to ensure recent changes haven't broken existing functionality.
 
 ## Template
 
@@ -48,6 +49,12 @@ Use this structure when scaffolding `docs/FOLLOWTHROUGH_PLAN.md`.
   - **What to Test:** <Quick manual or script target verification>
   - **Deferred / Not Yet Built:** <Related features for intentionally later scheduled>
 
+- [ ] **Task 0.3 - Phase 0 Acceptance & Build/Regression Verification**
+  - **Scope:** Verify the full project builds cleanly (if applicable), check for regressions in setup/prototype functionality, and validate that Phase 0 acceptance criteria are fully met.
+  - **Expected Result:** Clean build with zero compile/bundling errors; existing setup works end-to-end without breaks.
+  - **What to Test:** Run build script (e.g., `npm run build`), verify linters/tests, and test basic end-to-end workflow.
+  - **Deferred / Not Yet Built:** <Features intentionally reserved for Phase 1+>
+
 ---
 
 ## Phase 1: <Phase Title>
@@ -60,4 +67,16 @@ Use this structure when scaffolding `docs/FOLLOWTHROUGH_PLAN.md`.
   - **Expected Result:** <What after right task this works>
   - **What to Test:** <Quick manual or script target verification>
   - **Deferred / Not Yet Built:** <Related features for intentionally later scheduled>
+
+- [ ] **Task 1.2 - <Short Task Title>**
+  - **Scope:** <Concrete implement to work>
+  - **Expected Result:** <What after right task this works>
+  - **What to Test:** <Quick manual or script target verification>
+  - **Deferred / Not Yet Built:** <Related features for intentionally later scheduled>
+
+- [ ] **Task 1.3 - Phase 1 Acceptance & Build/Regression Verification**
+  - **Scope:** Run full project build and verify no regressions across Phase 0 or Phase 1 features. Confirm all Phase 1 acceptance criteria are satisfied.
+  - **Expected Result:** Clean build and successful integration across all implemented functionalities without breaking prior work.
+  - **What to Test:** Execute build command, run test suite, and smoke test critical paths from both Phase 0 and Phase 1.
+  - **Deferred / Not Yet Built:** <Features intentionally reserved for Phase 2+>
 ```

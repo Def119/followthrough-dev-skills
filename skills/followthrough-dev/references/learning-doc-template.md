@@ -14,7 +14,7 @@ Create **one learning document per phase** inside `docs/codebase/` named with th
 ```markdown
 # Phase <XX>: <Phase Title> - Codebase & Learning Guide
 
-**Phase Goal:** <1-2 sentences describing what capability this phase adds to the system>  
+**Phase Goal:** <1-2 sentences describing what functionality this phase adds to the system>  
 **Key Directories / Modules Touched:** `<dir-1>/`, `<dir-2>/`
 
 ---

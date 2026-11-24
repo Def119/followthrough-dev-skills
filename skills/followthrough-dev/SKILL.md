@@ -35,7 +35,7 @@ Determine which mode fits the current user request and repository state, then ju
 Use when the user has a rough idea, partial notes, or wants to design the project before scaffolding.
 
 1. Discuss and lock down core requirements at a high level:
-   - Problem statement, core functionalities, and non-goals
+   - Problem statement, core functionalities (functional requirements), and non-goals
    - Tech stack, tools, methodologies, external APIs, and data models
    - System-level architectural decisions and deployment scope (if included)
 2. **Run the Feasibility Gate:** Assess whether the project involves unproven technical risk (proof-of-concept mechanics, multi-platform support, unfamiliar APIs/SDKs, or hardware integration).
@@ -62,7 +62,7 @@ Use when a finalized spec MD exists (either from Mode 1 or provided directly by 
    - `references/learning-doc-template.md`
 3. Create or update the target repository files:
    - `docs/ARCHITECTURE.md` (synced from the initial spec)
-   - `docs/FOLLOWTHROUGH_PLAN.md` (includes the top-level **Phase Summary table** with `Phase`, `Milestone`, `Status`, and `Evidence doc(s)` links, followed by sequential phases `0`, `1`, `2`... and incremental testable tasks `0.1`, `0.2`, `1.1`...)
+   - `docs/FOLLOWTHROUGH_PLAN.md` (includes the top-level **Phase Summary table** with `Phase`, `Milestone`, `Status`, and `Evidence doc(s)` links, followed by sequential phases `0`, `1`, `2`... with incremental testable tasks ending each phase with a dedicated **Phase Acceptance & Build/Regression Verification** task)
    - `docs/ACTION_LOG.md` (initialized with Action ID `P.T.S` format rules)
    - `docs/codebase/phase-XX-<slug>.md` (stubbed for the first active phase)
 4. **Write the `AGENTS.md` Persistence Guardrail:** Create `AGENTS.md` (or append to it without overwriting existing rules; also append to `CLAUDE.md` only if it already exists in the repo) with this exact block so long sessions do not forget the workflow:
@@ -144,7 +144,7 @@ Do not finish a response until all five steps are completed:
 
 Use when all tasks in the active phase are marked `[x]` and verified by the user.
 
-1. Run configured phase-level automated tests (if enabled for the project) and output a brief phase-level manual smoke test checklist in chat.
+1. **Verify Acceptance Criteria & Builds:** Ensure the concluding **Phase Acceptance & Verification task** is completed—confirm the project builds/compiles cleanly without errors (if applicable to the stack) and run regression checks to ensure changes have not broken existing functionality. Output a brief phase-level manual smoke test checklist in chat.
 2. In `docs/FOLLOWTHROUGH_PLAN.md`, ensure the completed phase is marked `Complete` in the **Phase Summary table** with its `Evidence doc(s)` link in place.
 3. Audit `docs/ARCHITECTURE.md` against what was actually built in this phase and reconcile any drift.
 4. Prompt the user for Git transition:

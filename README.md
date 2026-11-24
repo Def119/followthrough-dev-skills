@@ -61,7 +61,7 @@ Once initialized, `followthrough-dev` scaffolds your project architecture, phase
 ### 3. Handle Rework and Phase Wrap-Up
 
 - **Fixes & Rework:** If something needs adjustment, prompt the agent (e.g., _"Fix the validation error in Task 1.2"_). It updates the code and appends an incremental revision log (`Action 1.2.2`) without erasing past history.
-- **Phase Wrap-Up:** When all phase tasks are verified, ask the agent to wrap up (e.g., _"Wrap up Phase 1"_). The agent marks the phase complete in the summary table, audits architecture drift, and guides your Git branch transitions.
+- **Phase Wrap-Up:** When all phase tasks are verified, ask the agent to wrap up (e.g., _"Wrap up Phase 1"_). The agent executes the concluding phase acceptance task (verifying the full build succeeds and changes have not broken existing features), marks the phase complete in the summary table, audits architecture drift, and guides your Git branch transitions.
 
 ## Example Prompts
 
