@@ -21,7 +21,7 @@ Use this skill when the user wants to:
 
 1. **Progressive Template Loading:** Read the matching file in `references/` before creating or updating any `docs/` artifact so formats stay consistent.
 2. **Adopt Existing Specs:** If the user already has an initial project plan or idea file (for example, `docs/PROJECT_PLAN.md`), adopt and reference it instead of creating a duplicate `docs/SPEC.md`.
-3. **Anti-Vibe-Coding Transparency:** Never treat code generation alone as done. Every completed task or rework must update the plan, action log, and phase learning doc, and output a plain-English manual testing checklist directly in chat.
+3. **Anti-Vibe-Coding Transparency:** Never treat code generation alone as done. Every completed task or rework must update the plan (including the Phase Summary table), action log, and phase learning doc, and output a plain-English manual testing checklist directly in chat.
 4. **Global Skip Escape Hatch:** At any interactive gate (missing preferences, testing, branch warnings, architecture audit), if the user says "skip", "use defaults", or "skip for now", do not block or re-ask. Proceed immediately with sensible defaults and record `SKIPPED (user override)` in `docs/ACTION_LOG.md`.
 
 ## Workflow Modes
@@ -62,7 +62,7 @@ Use when a finalized spec MD exists (either from Mode 1 or provided directly by 
    - `references/learning-doc-template.md`
 3. Create or update the target repository files:
    - `docs/ARCHITECTURE.md` (synced from the initial spec)
-   - `docs/FOLLOWTHROUGH_PLAN.md` (sequential phases `0`, `1`, `2`... and incremental testable tasks `0.1`, `0.2`, `1.1`...)
+   - `docs/FOLLOWTHROUGH_PLAN.md` (includes the top-level **Phase Summary table** with `Phase`, `Milestone`, `Status`, and `Evidence doc(s)` links, followed by sequential phases `0`, `1`, `2`... and incremental testable tasks `0.1`, `0.2`, `1.1`...)
    - `docs/ACTION_LOG.md` (initialized with Action ID `P.T.S` format rules)
    - `docs/codebase/phase-XX-<slug>.md` (stubbed for the first active phase)
 4. **Write the `AGENTS.md` Persistence Guardrail:** Create `AGENTS.md` (or append to it without overwriting existing rules; also append to `CLAUDE.md` only if it already exists in the repo) with this exact block so long sessions do not forget the workflow:
@@ -73,7 +73,7 @@ Use when a finalized spec MD exists (either from Mode 1 or provided directly by 
 This repository uses the `followthrough-dev` incremental workflow.
 Never mark a task or rework complete until ALL steps below are done:
 
-1. Update the task status (`[x]`) in `docs/FOLLOWTHROUGH_PLAN.md`.
+1. Update the task status (`[x]`) in `docs/FOLLOWTHROUGH_PLAN.md` and keep the Phase Summary table status updated (`Ongoing` / `Complete`).
 2. Append a new sequential `Action P.T.S` entry (with `Task ID` inside metadata) to `docs/ACTION_LOG.md`.
 3. Update `docs/codebase/phase-XX-<title>.md` with both an Architecturally Grounded Plain-English Mental Model and a Technical Walkthrough.
 4. Update `docs/ARCHITECTURE.md` only if system-level architecture changed.
@@ -103,7 +103,7 @@ Before executing the first task of a new phase:
 #### Execution Granularity
 
 - **Task-by-Task Mode (Default):** Execute one task (`P.T`), finish the Definition of Done below, and pause for user testing and feedback.
-- **Phase-at-a-Time Mode (On Request):** Execute remaining tasks in the requested phase sequentially (`P.1` -> `P.2` -> `P.3`). Write **individual per-task** entries in `docs/ACTION_LOG.md` and `docs/codebase/phase-XX-<slug>.md` as each task completes rather than collapsing the phase into one summary. Pause at phase end for review.
+- **Phase-at-a-Time Mode (On Request):** Execute remaining tasks in the requested phase sequentially (`P.1` -> `P.2` -> `P.3`). Write **individual per-task** entries in `docs/ACTION_LOG.md` and `docs/codebase/phase-XX-<slug>.md` as each task completes rather than collapsing the phase into one summary. Update the Phase Summary table status to `Complete` once all tasks in the phase finish. Pause at phase end for review.
 - **Rework / Change-Request Mode:** When the user asks to modify or fix a previously completed task `P.T`:
   - Implement the fix cleanly.
   - Append a **new** entry to `docs/ACTION_LOG.md` incrementing the 3rd digit of the Action ID (`Action P.T.2`, `Action P.T.3`, ...) while referencing the same `Task ID: P.T`.
@@ -114,7 +114,7 @@ Before executing the first task of a new phase:
 Do not finish a response until all five steps are completed:
 
 1. **Implement** the code or configuration changes cleanly.
-2. **Update Plan:** Mark `[x]` in `docs/FOLLOWTHROUGH_PLAN.md` (or leave `[ ]` / `[!]` if partially blocked).
+2. **Update Plan:** Mark `[x]` in `docs/FOLLOWTHROUGH_PLAN.md` (or leave `[ ]` / `[!]` if partially blocked). Keep the **Phase Summary table** in sync: mark the active phase as `Ongoing` (or `Complete` once all tasks in that phase are verified) and ensure its `Evidence doc(s)` link points to the active `docs/codebase/phase-XX-<slug>.md`.
 3. **Log Action:** Append a lean `Action P.T.S` entry to `docs/ACTION_LOG.md` following `references/action-log-template.md`.
 4. **Update Learning Docs:** Update `docs/codebase/phase-XX-<slug>.md` following `references/learning-doc-template.md`. Update `docs/ARCHITECTURE.md` **only** if system-level architecture, APIs, stack, or major design decisions changed.
 5. **Output In-Chat Manual Testing Checklist:** Always print the block below directly in chat so the user can test immediately without opening `docs/`:
@@ -145,12 +145,13 @@ Do not finish a response until all five steps are completed:
 Use when all tasks in the active phase are marked `[x]` and verified by the user.
 
 1. Run configured phase-level automated tests (if enabled for the project) and output a brief phase-level manual smoke test checklist in chat.
-2. Audit `docs/ARCHITECTURE.md` against what was actually built in this phase and reconcile any drift.
-3. Prompt the user for Git transition:
+2. In `docs/FOLLOWTHROUGH_PLAN.md`, ensure the completed phase is marked `Complete` in the **Phase Summary table** with its `Evidence doc(s)` link in place.
+3. Audit `docs/ARCHITECTURE.md` against what was actually built in this phase and reconcile any drift.
+4. Prompt the user for Git transition:
    - Commit final phase changes.
    - Merge into `dev` (if using an aggregating branch) or prepare to branch linearly from the current phase branch.
    - Create the next dedicated phase branch (provide exact copy-paste `git` commands).
-4. Initialize the next phase's file inside `docs/codebase/phase-XX-<slug>.md`.
+5. Initialize the next phase's file inside `docs/codebase/phase-XX-<slug>.md`.
 
 ## Gotchas
 
